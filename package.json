@@ -1,0 +1,31 @@
+{
+  "name": "trigger-launcher",
+  "version": "1.0.0",
+  "description": "An Electron application to launch preconfigured events from the live-triggering in a 2-IMMERSE presentation",
+  "main": "main.js",
+  "repository": "https://gitlab-ext.irt.de/2-immerse/trigger-launcher",
+  "author": "Thomas Röggla",
+  "license": "BSD-2-Clause",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.3",
+    "@types/react": "^16.0.41",
+    "@types/react-dom": "^16.0.4",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.28.11",
+    "electron": "^1.8.4",
+    "style-loader": "^0.20.3",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.7.2",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13"
+  },
+  "dependencies": {
+    "bulma": "^0.6.2",
+    "immutable": "^3.8.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
