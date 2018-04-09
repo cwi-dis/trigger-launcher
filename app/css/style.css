@@ -13,6 +13,23 @@ h3 {
   border-bottom: 1px solid #555555;
 }
 
+.grid {
+  height: calc(100vh - 55px);
+  width: 100vw;
+  padding: 10px;
+
+  display: grid;
+  grid-gap: 5px;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.remoteControl {
+  width: 100vw;
+  height: 55px;
+  border-top: 2px solid #161616;
+}
+
 .loader, .loader:after {
   border-radius: 50%;
   width: 5em;
