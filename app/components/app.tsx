@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import DocumentChooser from "./document_chooser";
-import LoadingSpinner from "./util/loading_spinner";
 import TriggerLauncher from "./trigger_launcher";
 
 interface AppState {

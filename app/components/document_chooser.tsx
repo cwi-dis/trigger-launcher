@@ -35,7 +35,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
       }).catch((err) => {
         console.error("Could not fetch existing documents:", err);
       });
-    }
+    };
 
     this.docRequestInterval = setInterval(requestDocuments, 2000);
     requestDocuments();
