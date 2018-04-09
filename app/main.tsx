@@ -2,12 +2,13 @@ import * as React from "react";
 import { render } from "react-dom";
 
 import "bulma/css/bulma.css";
+import "./css/style.css";
 
-import TriggerLauncher from "./components/trigger_launcher";
+import App from "./components/app";
 
 window.onload = () => {
   render(
-    <TriggerLauncher />,
+    <App />,
     document.getElementById("react")
   );
-}
+};
