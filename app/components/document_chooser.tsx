@@ -55,7 +55,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
     const { existingDocuments } = this.state;
 
     return (
-      <div style={{width: "50vw", margin: "20% auto"}}>
+      <div style={{width: "50vw", margin: "15% auto"}}>
           <h3>Document ID</h3>
 
           <div className="select is-fullwidth is-info">
