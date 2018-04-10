@@ -27,13 +27,27 @@ interface TriggerLauncherProps {
   documentId: string;
 }
 
-class TriggerLauncher extends React.Component<TriggerLauncherProps, {}> {
+interface TriggerLauncherState {
+  activeEvents: Array<Event>;
+  enqueuedEvents: Array<Event>;
+}
+
+class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
   public constructor(props: any) {
     super(props);
+
+    this.state = {
+      activeEvents: [],
+      enqueuedEvents: []
+    };
   }
 
   public render() {
     const { documentId } = this.props;
+    const { activeEvents, enqueuedEvents } = this.state;
+
+    console.log("Enqueued:", enqueuedEvents);
+    console.log("Active:", activeEvents);
 
     return (
       <div>
