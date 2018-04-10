@@ -104,11 +104,16 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
 
             return (
               <EventContainer documentId={documentId}
-                              event={event} />
+                              event={event} key={n} />
             );
           })}
         </div>
-        <div className="remoteControl"></div>
+        <div className="remoteControl">
+          <button style={{margin: 8}}
+                  className="button">
+            Clear Session
+          </button>
+        </div>
       </div>
     );
   }
