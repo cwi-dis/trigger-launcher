@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-import { makeRequest } from "../util";
+import { makeRequest, getApplicationConfig } from "../util";
 import { Event } from "./trigger_launcher";
 
 interface EventContainerProps {
@@ -27,14 +27,10 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     };
   }
 
-  private getButtonLabel(triggerMode = "trigger"): string {
+  private getButtonLabel(): string {
     const { event } = this.props;
 
-    if (event.parameters.filter((param) => param.type !== "set").length > 0) {
-      return "configure";
-    } else if (triggerMode === "enqueue") {
-      return "enqueue";
-    } else if (event.verb) {
+    if (event.verb) {
       return event.verb;
     } else if (event.modify) {
       return "modify";
@@ -43,19 +39,15 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     return "show";
   }
 
-  private launchEvent(triggerMode = "trigger") {
+  private launchEvent() {
     const { event, documentId } = this.props;
-    let endpoint: string, requestMethod: "PUT" | "POST";
 
-    if (triggerMode === "trigger") {
-      endpoint = event.modify ? "modify" : "trigger";
-      requestMethod = event.modify ? "PUT" : "POST";
-    } else {
-      endpoint = "enqueue";
-      requestMethod = "POST";
-    }
+    const endpoint = event.modify ? "modify" : "trigger";
+    const requestMethod = event.modify ? "PUT" : "POST";
 
-    const url = `/api/v1/document/${documentId}/events/${event.id}/${endpoint}`;
+    const { serverUrl } = getApplicationConfig();
+    const url = `${serverUrl}/api/v1/document/${documentId}/events/${event.id}/${endpoint}`;
+
     const data = JSON.stringify(event.parameters.map((param) => {
       return { parameter: param.parameter, value: param.value };
     }));
