@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as escapeStringRegex from "escape-string-regexp";
 
 import { makeRequest, getApplicationConfig } from "../util";
 import EventContainer from "./event_container";
@@ -87,6 +88,18 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
 
     console.log("Enqueued:", enqueuedEvents);
     console.log("Active:", activeEvents);
+
+    const events = enqueuedEvents.slice(0, 15).map((event) => {
+      const eventRegex = RegExp(`^${escapeStringRegex(event.id)}-[0-9]+$`);
+
+      const result = activeEvents.find((active) => {
+        return eventRegex.test(active.id);
+      });
+
+      return result || event;
+    });
+
+    console.log("Events without button:", enqueuedEvents.slice(15));
 
     return (
       <div>
