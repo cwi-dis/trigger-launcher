@@ -104,27 +104,16 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     return (
       <div>
         <div className="grid">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((n) => {
-            const event: Event = {
-              trigger: true,
-              modify: false,
-              id: `event-${n}`,
-              parameters: [],
-              name: `Event Number ${n}`,
-              previewUrl: "https://origin.platform.2immerse.eu/dmapps/motogp/previews/crash.jpg",
-              longdesc: "Lorem ipsum dolor sit amet",
-              state: "ready"
-            };
-
+          {events.map((event, i) => {
             return (
               <EventContainer documentId={documentId}
-                              event={event} key={n} />
+                              event={event} key={i} />
             );
           })}
         </div>
         <div className="remoteControl">
           <button style={{margin: 8}}
-                  className="button"
+                  className="button is-danger"
                   onClick={clearSession.bind(this)}>
             Clear Session
           </button>
