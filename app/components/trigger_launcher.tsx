@@ -1,4 +1,6 @@
 import * as React from "react";
+
+import { makeRequest, getApplicationConfig } from "../util";
 import EventContainer from "./event_container";
 
 export type ParamTypes = "duration" | "time" | "string" | "url" | "const" | "set" | "selection";
@@ -18,6 +20,7 @@ export interface Event {
   id: string;
   parameters: Array<EventParams>;
   name: string;
+  state: "abstract" | "ready" | "active";
   longdesc?: string;
   previewUrl?: string;
   verb?: string;
@@ -33,6 +36,9 @@ interface TriggerLauncherState {
 }
 
 class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
+  private pollingFrequency: number = 2000;
+  private pollingInterval: any;
+
   public constructor(props: any) {
     super(props);
 
@@ -40,6 +46,38 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       activeEvents: [],
       enqueuedEvents: []
     };
+  }
+
+  private fetchEvents() {
+    const { serverUrl } = getApplicationConfig();
+    const url = `${serverUrl}/api/v1/document/${this.props.documentId}/events`;
+
+    console.log("updating events");
+
+    makeRequest("GET", url).then((data) => {
+      const events: Array<Event> = JSON.parse(data);
+
+      this.setState({
+        activeEvents: events.filter((ev) => ev.state === "active"),
+        enqueuedEvents: events.filter((ev) => ev.state === "ready"),
+      });
+    }).catch((err) => {
+      console.error("Could not fetch triggers:", err);
+    });
+  }
+
+  public componentDidMount() {
+    setInterval(() => {
+      this.fetchEvents();
+    }, this.pollingFrequency);
+
+    this.fetchEvents();
+  }
+
+  public componentWillUnmount() {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+    }
   }
 
   public render() {
@@ -60,7 +98,8 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
               parameters: [],
               name: `Event Number ${n}`,
               previewUrl: "https://origin.platform.2immerse.eu/dmapps/motogp/previews/crash.jpg",
-              longdesc: "Lorem ipsum dolor sit amet"
+              longdesc: "Lorem ipsum dolor sit amet",
+              state: "ready"
             };
 
             return (
