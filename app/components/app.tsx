@@ -20,11 +20,15 @@ class App extends React.Component<{}, AppState> {
     this.setState({ documentId });
   }
 
+  private clearSession() {
+    this.setState({ documentId: null });
+  }
+
   private renderContent() {
     const { documentId } = this.state;
 
     if (documentId) {
-      return <TriggerLauncher documentId={documentId} />;
+      return <TriggerLauncher documentId={documentId} clearSession={this.clearSession.bind(this)} />;
     }
 
     return <DocumentChooser assignDocumentId={this.assignDocumentId.bind(this)} />;

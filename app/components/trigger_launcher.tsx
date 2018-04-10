@@ -28,6 +28,7 @@ export interface Event {
 
 interface TriggerLauncherProps {
   documentId: string;
+  clearSession: () => void;
 }
 
 interface TriggerLauncherState {
@@ -81,7 +82,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   public render() {
-    const { documentId } = this.props;
+    const { documentId, clearSession } = this.props;
     const { activeEvents, enqueuedEvents } = this.state;
 
     console.log("Enqueued:", enqueuedEvents);
@@ -110,7 +111,8 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
         </div>
         <div className="remoteControl">
           <button style={{margin: 8}}
-                  className="button">
+                  className="button"
+                  onClick={clearSession.bind(this)}>
             Clear Session
           </button>
         </div>
