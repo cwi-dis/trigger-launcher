@@ -23,8 +23,10 @@
     "webpack-cli": "^2.0.13"
   },
   "dependencies": {
+    "@types/escape-string-regexp": "^0.0.32",
     "bulma": "^0.6.2",
     "elgato-stream-deck": "^2.1.0",
+    "escape-string-regexp": "^1.0.5",
     "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
