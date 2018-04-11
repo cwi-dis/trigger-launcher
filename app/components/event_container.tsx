@@ -32,7 +32,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
 
     if (event.verb) {
       return event.verb;
-    } else if (event.modify) {
+    } else if (event.state === "active") {
       return "modify";
     }
 
@@ -42,8 +42,8 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
   private launchEvent() {
     const { event, documentId } = this.props;
 
-    const endpoint = event.modify ? "modify" : "trigger";
-    const requestMethod = event.modify ? "PUT" : "POST";
+    const endpoint = (event.state === "active") ? "modify" : "trigger";
+    const requestMethod = (event.state === "active") ? "PUT" : "POST";
 
     const { serverUrl } = getApplicationConfig();
     const url = `${serverUrl}/api/v1/document/${documentId}/events/${event.id}/${endpoint}`;
@@ -79,8 +79,8 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
 
     const paramCount = event.parameters.filter((param) => param.type !== "set").length;
 
-    const borderColor = (event.modify) ? "#23D160" : "#161616";
-    const bgColor = (event.modify) ? "#0C4620" : "transparent";
+    const borderColor = (event.state === "active") ? "#23D160" : "#161616";
+    const bgColor = (event.state === "active") ? "#0C4620" : "transparent";
 
     const boxStyle: React.CSSProperties = {
       display: "flex", flexDirection: "column", justifyContent: "space-between",
