@@ -27,6 +27,11 @@ export interface Event {
   verb?: string;
 }
 
+function splitNumberFromEventId(eventId: string) {
+  const parts = eventId.split("-");
+  return parts.slice(0, parts.length - 1).join("-");
+}
+
 interface TriggerLauncherProps {
   documentId: string;
   clearSession: () => void;
@@ -90,7 +95,8 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     console.log("Active:", activeEvents);
 
     const events = enqueuedEvents.slice(0, 15).map((event) => {
-      const eventRegex = RegExp(`^${escapeStringRegex(event.id)}-[0-9]+$`);
+      const eventId = splitNumberFromEventId(event.id);
+      const eventRegex = RegExp(`^${escapeStringRegex(eventId)}-[0-9]+$`);
 
       const result = activeEvents.find((active) => {
         return eventRegex.test(active.id);
