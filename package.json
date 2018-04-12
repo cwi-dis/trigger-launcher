@@ -7,7 +7,8 @@
   "author": "Thomas Röggla",
   "license": "BSD-2-Clause",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "postinstall": "electron-rebuild --force"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
@@ -16,6 +17,7 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.28.11",
     "electron": "^1.8.4",
+    "electron-rebuild": "^1.7.3",
     "style-loader": "^0.20.3",
     "ts-loader": "^4.1.0",
     "typescript": "^2.7.2",
