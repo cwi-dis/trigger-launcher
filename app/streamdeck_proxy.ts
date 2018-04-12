@@ -37,6 +37,10 @@ class StreamDeckProxy {
     this.streamDeck && this.streamDeck.fillImage(this.keyMap[index], buffer);
   }
 
+  public setBrightness(brightness: number) {
+    this.streamDeck && this.streamDeck.setBrightness(brightness);
+  }
+
   public onKeyUp(callback: (index: number) => void) {
     if (this.streamDeck) {
       this.streamDeck.on("up", (index) => {
