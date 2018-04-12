@@ -2,7 +2,7 @@ import * as React from "react";
 import * as escapeStringRegex from "escape-string-regexp";
 
 import StreamDeck from "../streamdeck_proxy";
-import { makeRequest, getApplicationConfig } from "../util";
+import { makeRequest, getApplicationConfig, fetchImage } from "../util";
 import EventContainer from "./event_container";
 
 export type ParamTypes = "duration" | "time" | "string" | "url" | "const" | "set" | "selection";
@@ -136,7 +136,16 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
             if (event.state === "active") {
               this.streamDeck.fillColor(i, 0, 255, 0);
             } else {
-              this.streamDeck.fillColor(i, 255, 0, 0);
+              if (event.previewUrl) {
+                fetchImage(event.previewUrl).then((buffer) => {
+                  console.log("Image fetched");
+                  this.streamDeck.fillImage(i, buffer);
+                }).catch(() => {
+                  console.log("Could not fetch image");
+                });
+              } else {
+                this.streamDeck.fillColor(i, 255, 255, 255);
+              }
             }
 
             return (
