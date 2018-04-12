@@ -25,7 +25,7 @@
   "dependencies": {
     "@types/escape-string-regexp": "^0.0.32",
     "bulma": "^0.6.2",
-    "elgato-stream-deck": "^2.1.0",
+    "elgato-stream-deck": "https://github.com/troeggla/node-elgato-stream-deck",
     "escape-string-regexp": "^1.0.5",
     "immutable": "^3.8.2",
     "react": "^16.2.0",

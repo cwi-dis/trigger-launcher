@@ -1804,11 +1804,11 @@ elegant-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/elegant-spinner/-/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
 
-elgato-stream-deck@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/elgato-stream-deck/-/elgato-stream-deck-2.1.0.tgz#ca60abed0de3b350616f28cd1c8bddb8ae57972a"
+"elgato-stream-deck@https://github.com/troeggla/node-elgato-stream-deck":
+  version "2.1.1"
+  resolved "https://github.com/troeggla/node-elgato-stream-deck#d3cbfd2357cf61e27943182042d2e353a1c4073d"
   dependencies:
-    node-hid "^0.7.2"
+    node-hid "^0.6.0"
     sharp "^0.20.0"
 
 elliptic@^6.0.0:
