@@ -25,5 +25,9 @@ module.exports = {
         ]
       }
     ]
+  },
+  externals: {
+   "sharp": "commonjs sharp",
+   "node-hid": "commonjs node-hid"
   }
 };
