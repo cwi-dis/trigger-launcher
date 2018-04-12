@@ -109,12 +109,38 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     }
   }
 
+  private initializeButton(event: Event, i: number) {
+    if (event.state === "active") {
+      if (event.previewUrl) {
+        fetchImage(event.previewUrl).then((img) => {
+          img.background("#1DCB00").resize(60, 60).extend(6).flatten().raw().toBuffer().then((bufferWithFrame) => {
+            this.streamDeck.fillImage(i, bufferWithFrame);
+          });
+
+        }).catch(() => {
+          console.log("Could not fetch image");
+        });
+      } else {
+        this.streamDeck.fillColor(i, 255, 0, 0);
+      }
+    } else {
+      if (event.previewUrl) {
+        fetchImage(event.previewUrl).then((img) => {
+          img.background("#000000").resize(60, 60).extend(6).flatten().raw().toBuffer().then((buffer) => {
+            this.streamDeck.fillImage(i, buffer);
+          });
+        }).catch(() => {
+          console.log("Could not fetch image");
+        });
+      } else {
+        this.streamDeck.fillColor(i, 255, 255, 255);
+      }
+    }
+  }
+
   public render() {
     const { documentId, clearSession } = this.props;
     const { activeEvents, enqueuedEvents } = this.state;
-
-    console.log("Enqueued:", enqueuedEvents);
-    console.log("Active:", activeEvents);
 
     const events = enqueuedEvents.slice(0, 15).map((event) => {
       const eventId = splitNumberFromEventId(event.id);
@@ -127,26 +153,11 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       return result || event;
     });
 
-    console.log("Events without button:", enqueuedEvents.slice(15));
-
     return (
       <div>
         <div className="grid">
           {events.map((event, i) => {
-            if (event.state === "active") {
-              this.streamDeck.fillColor(i, 0, 255, 0);
-            } else {
-              if (event.previewUrl) {
-                fetchImage(event.previewUrl).then((buffer) => {
-                  console.log("Image fetched");
-                  this.streamDeck.fillImage(i, buffer);
-                }).catch(() => {
-                  console.log("Could not fetch image");
-                });
-              } else {
-                this.streamDeck.fillColor(i, 255, 255, 255);
-              }
-            }
+            this.initializeButton(event, i);
 
             return (
               <EventContainer documentId={documentId}
