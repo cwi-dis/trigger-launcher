@@ -29,6 +29,14 @@ class StreamDeckProxy {
     this.streamDeck && this.streamDeck.fillColor(this.keyMap[index], r, g, b);
   }
 
+  public fillImageFromFile(index: number, path: string) {
+    this.streamDeck && this.streamDeck.fillImageFromFile(this.keyMap[index], path);
+  }
+
+  public fillImage(index: number, buffer: Buffer) {
+    this.streamDeck && this.streamDeck.fillImage(this.keyMap[index], buffer);
+  }
+
   public onKeyUp(callback: (index: number) => void) {
     if (this.streamDeck) {
       this.streamDeck.on("up", (index) => {
