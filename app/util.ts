@@ -62,22 +62,19 @@ export function makeRequest(method: HTTPMethods, url: string, data?: any, conten
   });
 }
 
-export function fetchImage(url: string): Promise<Buffer> {
+export function fetchImage(url: string): Promise<sharp.SharpInstance> {
   const reqPromise: Promise<Buffer> = new Promise((resolve, reject) => {
     request(url, { encoding: null }, (err, res, body) => {
-      console.log("Fetching image", url);
 
       if (err) {
         reject();
       } else {
-        console.log("Image promise resolved");
         resolve(body);
       }
     });
   });
 
   return reqPromise.then((body) => {
-    console.log("Processing image");
-    return sharp(body).flatten().resize(72, 72).raw().toBuffer();
+    return sharp(body).flatten().resize(72, 72);
   });
 }
