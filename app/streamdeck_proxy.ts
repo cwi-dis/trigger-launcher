@@ -28,6 +28,14 @@ class StreamDeckProxy {
   public fillColor(index: number, r: number, g: number, b: number) {
     this.streamDeck && this.streamDeck.fillColor(this.keyMap[index], r, g, b);
   }
+
+  public onKeyUp(callback: (index: number) => void) {
+    if (this.streamDeck) {
+      this.streamDeck.on("up", (index) => {
+        callback(this.keyMap[index]);
+      });
+    }
+  }
 }
 
 export default StreamDeckProxy;
