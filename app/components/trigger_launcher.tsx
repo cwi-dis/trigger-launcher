@@ -84,6 +84,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   public componentDidMount() {
     this.streamDeck = new StreamDeck();
     this.streamDeck.clearAllKeys();
+    this.streamDeck.setBrightness(100);
 
     this.streamDeck.onKeyUp((index) => {
       console.log("StreamDeck button pressed:", index);
