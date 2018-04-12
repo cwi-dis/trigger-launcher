@@ -39,7 +39,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     return "show";
   }
 
-  private launchEvent() {
+  public launchEvent() {
     const { event, documentId } = this.props;
 
     const endpoint = (event.state === "active") ? "modify" : "trigger";

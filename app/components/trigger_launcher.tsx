@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as escapeStringRegex from "escape-string-regexp";
 
+import StreamDeck from "../streamdeck_proxy";
 import { makeRequest, getApplicationConfig } from "../util";
 import EventContainer from "./event_container";
 
@@ -43,6 +44,13 @@ interface TriggerLauncherState {
 }
 
 class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
+  private streamDeck: StreamDeck;
+  private eventContainerRefs: Array<EventContainer | null> = [
+    null, null, null, null, null,
+    null, null, null, null, null,
+    null, null, null, null, null
+  ];
+
   private pollingFrequency: number = 2000;
   private pollingInterval: any;
 
@@ -74,6 +82,18 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   public componentDidMount() {
+    this.streamDeck = new StreamDeck();
+    this.streamDeck.clearAllKeys();
+
+    this.streamDeck.onKeyUp((index) => {
+      console.log("StreamDeck button pressed:", index);
+
+      if (this.eventContainerRefs[index]) {
+        console.log("Launching event...");
+        this.eventContainerRefs[index]!.launchEvent();
+      }
+    });
+
     setInterval(() => {
       this.fetchEvents();
     }, this.pollingFrequency);
@@ -82,6 +102,8 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   public componentWillUnmount() {
+    this.streamDeck.clearAllKeys();
+
     if (this.pollingInterval) {
       clearInterval(this.pollingInterval);
     }
@@ -111,8 +133,15 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       <div>
         <div className="grid">
           {events.map((event, i) => {
+            if (event.state === "active") {
+              this.streamDeck.fillColor(i, 0, 255, 0);
+            } else {
+              this.streamDeck.fillColor(i, 255, 0, 0);
+            }
+
             return (
               <EventContainer documentId={documentId}
+                              ref={(e) => this.eventContainerRefs[i] = e}
                               onTriggered={this.fetchEvents.bind(this)}
                               event={event} key={i} />
             );
