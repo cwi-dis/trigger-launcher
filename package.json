@@ -10,6 +10,12 @@
     "start": "electron main.js",
     "postinstall": "electron-builder install-app-deps"
   },
+  "build": {
+    "appId": "nl.cwi.dis.trigger-launcher",
+    "mac": {
+      "target": "dir"
+    }
+  },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
     "@types/react": "^16.0.41",
