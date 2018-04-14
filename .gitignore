@@ -4,4 +4,4 @@ node_modules/
 *.swp
 *.log
 .DS_Store
-trigger-launcher-darwin-x64/
+dist/

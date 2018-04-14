@@ -5,7 +5,7 @@ module.exports = {
   mode: "development",
   target: "electron-renderer",
   output: {
-    path: __dirname + "/dist",
+    path: __dirname + "/js",
     filename: "bundle.js"
   },
   devtool: "source-map",
