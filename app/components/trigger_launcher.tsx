@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as escapeStringRegex from "escape-string-regexp";
 
 import StreamDeck from "../streamdeck_proxy";
 import { makeRequest, getApplicationConfig, fetchImage } from "../util";
@@ -26,11 +25,7 @@ export interface Event {
   longdesc?: string;
   previewUrl?: string;
   verb?: string;
-}
-
-function splitNumberFromEventId(eventId: string) {
-  const parts = eventId.split("-");
-  return parts.slice(0, parts.length - 1).join("-");
+  productionId: string;
 }
 
 interface TriggerLauncherProps {
@@ -144,11 +139,8 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     const { activeEvents, enqueuedEvents } = this.state;
 
     const events = enqueuedEvents.slice(0, 15).map((event) => {
-      const eventId = splitNumberFromEventId(event.id);
-      const eventRegex = RegExp(`^${escapeStringRegex(eventId)}-[0-9]+$`);
-
       const result = activeEvents.find((active) => {
-        return eventRegex.test(active.id);
+        return active.productionId === event.productionId;
       });
 
       return result || event;
