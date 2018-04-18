@@ -34,17 +34,12 @@ interface TriggerLauncherProps {
 }
 
 interface TriggerLauncherState {
-  activeEvents: Array<Event>;
-  enqueuedEvents: Array<Event>;
+  buttonAssignments: Array<Event | null>;
 }
 
 class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
   private streamDeck: StreamDeck;
-  private eventContainerRefs: Array<EventContainer | null> = [
-    null, null, null, null, null,
-    null, null, null, null, null,
-    null, null, null, null, null
-  ];
+  private eventContainerRefs: Array<EventContainer | null> = new Array(15).fill(null);
 
   private pollingFrequency: number = 2000;
   private pollingInterval: any;
@@ -52,9 +47,10 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   public constructor(props: any) {
     super(props);
 
+    this.streamDeck = new StreamDeck();
+
     this.state = {
-      activeEvents: [],
-      enqueuedEvents: []
+      buttonAssignments: new Array(15).fill(null)
     };
   }
 
@@ -65,11 +61,37 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     console.log("updating events");
 
     makeRequest("GET", url).then((data) => {
+      let { buttonAssignments } = this.state;
       const events: Array<Event> = JSON.parse(data);
 
+      const activeEvents = events.filter((ev) => ev.state === "active");
+      let enqueuedEvents = events.filter((ev) => ev.state === "ready").map((event) => {
+        const activeResult = activeEvents.find((active) => {
+          return active.productionId === event.productionId;
+        });
+
+        return activeResult || event;
+      });
+
+      for (let i = 0; i < buttonAssignments.length; i++) {
+        const buttonAssignment = buttonAssignments[i];
+
+        if (buttonAssignment != null) {
+          const result = enqueuedEvents.findIndex((ev) => ev.productionId === buttonAssignment.productionId);
+          buttonAssignments[i] = (result >= 0) ? enqueuedEvents.splice(result, 1)[0] : null;
+        }
+      }
+
+      for (let i = 0; i < buttonAssignments.length; i++) {
+        const buttonAssignment = buttonAssignments[i];
+
+        if (buttonAssignment == null) {
+          buttonAssignments[i] = enqueuedEvents.shift() || null;
+        }
+      }
+
       this.setState({
-        activeEvents: events.filter((ev) => ev.state === "active"),
-        enqueuedEvents: events.filter((ev) => ev.state === "ready"),
+        buttonAssignments
       });
     }).catch((err) => {
       console.error("Could not fetch triggers:", err);
@@ -77,7 +99,6 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   public componentDidMount() {
-    this.streamDeck = new StreamDeck();
     this.streamDeck.clearAllKeys();
     this.streamDeck.setBrightness(100);
 
@@ -105,7 +126,12 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     }
   }
 
-  private initializeButton(event: Event, i: number) {
+  private initializeButton(event: Event | null, i: number) {
+    if (event == null) {
+      this.streamDeck.clearKey(i);
+      return;
+    }
+
     if (event.state === "active") {
       if (event.previewUrl) {
         fetchImage(event.previewUrl).then((img) => {
@@ -136,21 +162,17 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
 
   public render() {
     const { documentId, clearSession } = this.props;
-    const { activeEvents, enqueuedEvents } = this.state;
-
-    const events = enqueuedEvents.slice(0, 15).map((event) => {
-      const result = activeEvents.find((active) => {
-        return active.productionId === event.productionId;
-      });
-
-      return result || event;
-    });
+    const { buttonAssignments } = this.state;
 
     return (
       <div>
         <div className="grid">
-          {events.map((event, i) => {
+          {buttonAssignments.map((event, i) => {
             this.initializeButton(event, i);
+
+            if (event == null) {
+              return <div/>;
+            }
 
             return (
               <EventContainer documentId={documentId}
