@@ -111,6 +111,10 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       }
     });
 
+    this.streamDeck.onError((error) => {
+      console.error("StreamDeck:", error);
+    });
+
     setInterval(() => {
       this.fetchEvents();
     }, this.pollingFrequency);
