@@ -95,6 +95,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       });
     }).catch((err) => {
       console.error("Could not fetch triggers:", err);
+      this.props.clearSession();
     });
   }
 
@@ -115,7 +116,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       console.error("StreamDeck:", error);
     });
 
-    setInterval(() => {
+    this.pollingInterval = setInterval(() => {
       this.fetchEvents();
     }, this.pollingFrequency);
 
@@ -175,7 +176,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
             this.initializeButton(event, i);
 
             if (event == null) {
-              return <div/>;
+              return <div key={i} />;
             }
 
             return (
