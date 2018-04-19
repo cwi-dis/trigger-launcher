@@ -18,27 +18,57 @@ class StreamDeckProxy {
   }
 
   public clearKey(index: number) {
-    this.streamDeck && this.streamDeck.clearKey(this.keyMap[index]);
+    try {
+      this.streamDeck && this.streamDeck.clearKey(this.keyMap[index]);
+    } catch {
+      console.error("lost connection to StreamDeck");
+      this.streamDeck = undefined;
+    }
   }
 
   public clearAllKeys() {
-    this.streamDeck && this.streamDeck.clearAllKeys();
+    try {
+      this.streamDeck && this.streamDeck.clearAllKeys();
+    } catch {
+      console.error("lost connection to StreamDeck");
+      this.streamDeck = undefined;
+    }
   }
 
   public fillColor(index: number, r: number, g: number, b: number) {
-    this.streamDeck && this.streamDeck.fillColor(this.keyMap[index], r, g, b);
+    try {
+      this.streamDeck && this.streamDeck.fillColor(this.keyMap[index], r, g, b);
+    } catch {
+      console.error("lost connection to StreamDeck");
+      this.streamDeck = undefined;
+    }
   }
 
   public fillImageFromFile(index: number, path: string) {
-    this.streamDeck && this.streamDeck.fillImageFromFile(this.keyMap[index], path);
+    try {
+      this.streamDeck && this.streamDeck.fillImageFromFile(this.keyMap[index], path);
+    } catch {
+      console.error("lost connection to StreamDeck");
+      this.streamDeck = undefined;
+    }
   }
 
   public fillImage(index: number, buffer: Buffer) {
-    this.streamDeck && this.streamDeck.fillImage(this.keyMap[index], buffer);
+    try {
+      this.streamDeck && this.streamDeck.fillImage(this.keyMap[index], buffer);
+    } catch {
+      console.error("lost connection to StreamDeck");
+      this.streamDeck = undefined;
+    }
   }
 
   public setBrightness(brightness: number) {
-    this.streamDeck && this.streamDeck.setBrightness(brightness);
+    try {
+      this.streamDeck && this.streamDeck.setBrightness(brightness);
+    } catch {
+      console.error("lost connection to StreamDeck");
+      this.streamDeck = undefined;
+    }
   }
 
   public onKeyUp(callback: (index: number) => void) {
