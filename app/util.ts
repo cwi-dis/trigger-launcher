@@ -62,19 +62,28 @@ export function makeRequest(method: HTTPMethods, url: string, data?: any, conten
   });
 }
 
+const imageCache: {[index: string]: any} = {};
+
 export function fetchImage(url: string): Promise<sharp.SharpInstance> {
-  const reqPromise: Promise<Buffer> = new Promise((resolve, reject) => {
-    request(url, { encoding: null }, (err, res, body) => {
+  if (imageCache[url]) {
+    console.log("cache hit for", url);
+    return Promise.resolve(sharp(imageCache[url]).flatten().resize(72, 72));
+  } else {
+    const reqPromise: Promise<Buffer> = new Promise((resolve, reject) => {
+      request(url, { encoding: null }, (err, res, body) => {
+        console.log("fetching image for", url);
 
-      if (err) {
-        reject();
-      } else {
-        resolve(body);
-      }
+        if (err) {
+          reject();
+        } else {
+          imageCache[url] = body;
+          resolve(body);
+        }
+      });
     });
-  });
 
-  return reqPromise.then((body) => {
-    return sharp(body).flatten().resize(72, 72);
-  });
+    return reqPromise.then((body) => {
+      return sharp(body).flatten().resize(72, 72);
+    });
+  }
 }
