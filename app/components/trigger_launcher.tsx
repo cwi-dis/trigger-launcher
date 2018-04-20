@@ -100,6 +100,11 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   public componentDidMount() {
+    window.onbeforeunload = () => {
+      console.log("window about to close...");
+      this.streamDeck.clearAllKeys();
+    };
+
     this.streamDeck.clearAllKeys();
     this.streamDeck.setBrightness(100);
 
