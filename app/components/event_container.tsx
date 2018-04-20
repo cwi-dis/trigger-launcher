@@ -74,6 +74,23 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     );
   }
 
+  private renderParamValues() {
+    const { event: { parameters } } = this.props;
+    const configuredParams = parameters.filter((param) => param.type !== "set");
+
+    if (configuredParams.length === 0) {
+      return null;
+    }
+
+    return (
+      <p>
+        {configuredParams.map((param, i) => {
+          return `${param.name}=${param.value || "null"}`;
+        }).join(", ")}
+      </p>
+    );
+  }
+
   public render() {
     const { event } = this.props;
     const { isLoading, flashSuccess, flashError } = this.state;
@@ -100,6 +117,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
             <h3 style={{fontSize: "1em", color: "#E9E9E9"}}>{event.name}</h3>
             {(event.longdesc) && <p>{event.longdesc}</p>}
             {this.renderParamCount(paramCount)}
+            {this.renderParamValues()}
           </div>
         </div>
 
