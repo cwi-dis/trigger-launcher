@@ -60,7 +60,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
 
           <div className="select is-fullwidth is-info">
             <select key="id" ref={(e) => this.idInput = e} required={true}>
-              {existingDocuments.map((documentId, i) => {
+              {existingDocuments.sort().map((documentId, i) => {
                 return <option key={i} value={documentId}>{documentId}</option>;
               })}
             </select>
