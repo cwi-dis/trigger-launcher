@@ -64,6 +64,20 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     });
   }
 
+  private dequeueEvent() {
+    const { event, documentId } = this.props;
+    const { serverUrl } = getApplicationConfig();
+
+    const url = `${serverUrl}/api/v1/document/${documentId}/events/${event.id}/dequeue`;
+
+    console.log("Dequeueing event", event.id);
+    makeRequest("POST", url).then(() => {
+      this.props.onTriggered && this.props.onTriggered();
+    }).catch((err) => {
+      console.error("Could not dequeue event", err);
+    });
+  }
+
   private renderParamCount(count: number) {
     if (count === 0) {
       return null;

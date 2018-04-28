@@ -66,7 +66,6 @@ const imageCache: {[index: string]: any} = {};
 
 export function fetchImage(url: string): Promise<sharp.SharpInstance> {
   if (imageCache[url]) {
-    console.log("cache hit for", url);
     return Promise.resolve(sharp(imageCache[url]).flatten().resize(72, 72));
   } else {
     const reqPromise: Promise<Buffer> = new Promise((resolve, reject) => {
