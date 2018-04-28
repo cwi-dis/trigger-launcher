@@ -130,14 +130,12 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     const bgColor = (event.state === "active") ? "#0C4620" : "transparent";
 
     const boxStyle: React.CSSProperties = {
-      display: "flex", flexDirection: "column", justifyContent: "space-between",
-      backgroundColor: bgColor, boxShadow: "0 0 10px #161616",
-      border: `1px solid ${borderColor}`, borderRadius: 5,
-      padding: 25
+      backgroundColor: bgColor,
+      border: `1px solid ${borderColor}`
     };
 
     return (
-      <div style={boxStyle}>
+      <div className="eventContainer" style={boxStyle}>
         {this.renderDequeueButton()}
         <div style={{display: "flex"}}>
           <div style={{width: 100, height: 100, margin: "0 15px 0 0", backgroundColor: "transparent"}}>
