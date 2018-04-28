@@ -105,6 +105,22 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     );
   }
 
+  private renderDequeueButton() {
+    const { event: { state } } = this.props;
+
+    if (state === "active") {
+      return null;
+    }
+
+    return (
+      <button style={{marginLeft: 10}}
+              className={classNames("button", "is-danger")}
+              onClick={this.dequeueEvent.bind(this)}>
+        drop
+      </button>
+    );
+  }
+
   public render() {
     const { event } = this.props;
     const { isLoading, flashSuccess, flashError } = this.state;
@@ -144,11 +160,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
                   onAnimationEnd={() => this.setState({flashSuccess: false, flashError: false})}>
             {this.getButtonLabel()}
           </button>
-          <button style={{marginLeft: 10}}
-                  className={classNames("button", "is-danger")}
-                  onClick={this.dequeueEvent.bind(this)}>
-            drop
-          </button>
+          {this.renderDequeueButton()}
         </div>
       </div>
     );
