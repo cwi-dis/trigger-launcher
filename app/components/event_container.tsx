@@ -144,6 +144,11 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
                   onAnimationEnd={() => this.setState({flashSuccess: false, flashError: false})}>
             {this.getButtonLabel()}
           </button>
+          <button style={{marginLeft: 10}}
+                  className={classNames("button", "is-danger")}
+                  onClick={this.dequeueEvent.bind(this)}>
+            drop
+          </button>
         </div>
       </div>
     );
