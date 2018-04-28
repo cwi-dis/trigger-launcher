@@ -12,16 +12,18 @@ class App extends React.Component<{}, AppState> {
     super(props);
 
     this.state = {
-      documentId: null
+      documentId: localStorage.getItem("documentId")
     };
   }
 
   private assignDocumentId(documentId: string) {
     this.setState({ documentId });
+    localStorage.setItem("documentId", documentId);
   }
 
   private clearSession() {
     this.setState({ documentId: null });
+    localStorage.removeItem("documentId");
   }
 
   private renderContent() {
