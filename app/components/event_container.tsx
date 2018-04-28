@@ -113,11 +113,10 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     }
 
     return (
-      <button style={{marginLeft: 10}}
-              className={classNames("button", "is-danger")}
-              onClick={this.dequeueEvent.bind(this)}>
-        drop
-      </button>
+      <div onClick={this.dequeueEvent.bind(this)}
+           className="dequeueButton">
+        &times;
+      </div>
     );
   }
 
@@ -139,6 +138,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
 
     return (
       <div style={boxStyle}>
+        {this.renderDequeueButton()}
         <div style={{display: "flex"}}>
           <div style={{width: 100, height: 100, margin: "0 15px 0 0", backgroundColor: "transparent"}}>
             {(event.previewUrl) && <img src={event.previewUrl} style={{maxWidth: 98, maxHeight: 98}} />}
@@ -160,7 +160,6 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
                   onAnimationEnd={() => this.setState({flashSuccess: false, flashError: false})}>
             {this.getButtonLabel()}
           </button>
-          {this.renderDequeueButton()}
         </div>
       </div>
     );
