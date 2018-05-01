@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as io from "socket.io-client";
 
 import StreamDeck from "../streamdeck_proxy";
 import { makeRequest, getApplicationConfig, fetchImage } from "../util";
@@ -38,11 +39,9 @@ interface TriggerLauncherState {
 }
 
 class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
+  private socket: SocketIOClient.Socket;
   private streamDeck: StreamDeck;
   private eventContainerRefs: Array<EventContainer | null> = new Array(15).fill(null);
-
-  private pollingFrequency: number = 2000;
-  private pollingInterval: any;
 
   public constructor(props: any) {
     super(props);
@@ -54,48 +53,76 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     };
   }
 
+  private subscribeToEventUpdates() {
+    const { serverUrl } = getApplicationConfig();
+
+    makeRequest("GET", `${serverUrl}/api/v1/configuration`).then((data) => {
+      const { websocketService }: { [index: string]: string } = JSON.parse(data);
+      const { documentId } = this.props;
+
+      const url = websocketService.replace(/\/$/, "") + "/trigger";
+      console.log("Connecting to", url);
+
+      this.socket = io(url, { transports: ["websocket"] });
+
+      this.socket.on("connect", () => {
+        console.log("Connected to websocket-service");
+
+        this.socket.emit("JOIN", documentId, () => {
+          console.log("Joined channel for document ID", documentId);
+        });
+      });
+
+      this.socket.on("EVENTS", (data: { events: Array<Event> }) => {
+        console.log("Received trigger event update");
+        const { events } = data;
+
+        this.parseButtonAssignments(events);
+      });
+    });
+  }
+
   private fetchEvents() {
     const { serverUrl } = getApplicationConfig();
     const url = `${serverUrl}/api/v1/document/${this.props.documentId}/events`;
 
-    console.log("updating events");
-
     makeRequest("GET", url).then((data) => {
-      let { buttonAssignments } = this.state;
       const events: Array<Event> = JSON.parse(data);
+      this.parseButtonAssignments(events);
+    });
+  }
 
-      const activeEvents = events.filter((ev) => ev.state === "active");
-      let enqueuedEvents = events.filter((ev) => ev.state === "ready").map((event) => {
-        const activeResult = activeEvents.find((active) => {
-          return active.productionId === event.productionId;
-        });
+  private parseButtonAssignments(events: Array<Event>) {
+    let { buttonAssignments } = this.state;
 
-        return activeResult || event;
+    const activeEvents = events.filter((ev) => ev.state === "active");
+    let enqueuedEvents = events.filter((ev) => ev.state === "ready").map((event) => {
+      const activeResult = activeEvents.find((active) => {
+        return active.productionId === event.productionId;
       });
 
-      for (let i = 0; i < buttonAssignments.length; i++) {
-        const buttonAssignment = buttonAssignments[i];
+      return activeResult || event;
+    });
 
-        if (buttonAssignment != null) {
-          const result = enqueuedEvents.findIndex((ev) => ev.productionId === buttonAssignment.productionId);
-          buttonAssignments[i] = (result >= 0) ? enqueuedEvents.splice(result, 1)[0] : null;
-        }
+    for (let i = 0; i < buttonAssignments.length; i++) {
+      const buttonAssignment = buttonAssignments[i];
+
+      if (buttonAssignment != null) {
+        const result = enqueuedEvents.findIndex((ev) => ev.productionId === buttonAssignment.productionId);
+        buttonAssignments[i] = (result >= 0) ? enqueuedEvents.splice(result, 1)[0] : null;
       }
+    }
 
-      for (let i = 0; i < buttonAssignments.length; i++) {
-        const buttonAssignment = buttonAssignments[i];
+    for (let i = 0; i < buttonAssignments.length; i++) {
+      const buttonAssignment = buttonAssignments[i];
 
-        if (buttonAssignment == null) {
-          buttonAssignments[i] = enqueuedEvents.shift() || null;
-        }
+      if (buttonAssignment == null) {
+        buttonAssignments[i] = enqueuedEvents.shift() || null;
       }
+    }
 
-      this.setState({
-        buttonAssignments
-      });
-    }).catch((err) => {
-      console.error("Could not fetch triggers:", err);
-      this.props.clearSession();
+    this.setState({
+      buttonAssignments
     });
   }
 
@@ -121,19 +148,13 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
       console.error("StreamDeck:", error);
     });
 
-    this.pollingInterval = setInterval(() => {
-      this.fetchEvents();
-    }, this.pollingFrequency);
-
     this.fetchEvents();
+    this.subscribeToEventUpdates();
   }
 
   public componentWillUnmount() {
     this.streamDeck.clearAllKeys();
-
-    if (this.pollingInterval) {
-      clearInterval(this.pollingInterval);
-    }
+    this.socket.close();
   }
 
   private initializeButton(event: Event | null, i: number) {
