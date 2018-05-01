@@ -28,6 +28,8 @@ module.exports = {
   },
   externals: {
    "sharp": "commonjs sharp",
-   "node-hid": "commonjs node-hid"
+   "node-hid": "commonjs node-hid",
+   "bufferutil": "commonjs bufferutil",
+   "utf-8-validate": "commonjs utf-8-validate"
   }
 };
