@@ -34,12 +34,14 @@
     "@types/escape-string-regexp": "^0.0.32",
     "@types/request": "^2.47.0",
     "@types/sharp": "^0.17.8",
+    "@types/socket.io-client": "^1.4.32",
     "bulma": "^0.6.2",
     "elgato-stream-deck": "https://github.com/troeggla/node-elgato-stream-deck",
     "escape-string-regexp": "^1.0.5",
     "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "socket.io-client": "^2.1.0"
   }
 }
