@@ -130,6 +130,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     window.onbeforeunload = () => {
       console.log("window about to close...");
       this.streamDeck.clearAllKeys();
+      localStorage.removeItem("documentId");
     };
 
     this.streamDeck.clearAllKeys();
