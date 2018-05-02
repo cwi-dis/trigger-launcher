@@ -8,7 +8,7 @@ interface DocumentChooserProps {
 }
 
 interface DocumentChooserState {
-  existingDocuments: Array<string>;
+  existingDocuments: Array<{ id: string, description: string }>;
 }
 
 class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChooserState> {
@@ -60,8 +60,8 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
 
           <div className="select is-fullwidth is-info">
             <select key="id" ref={(e) => this.idInput = e} required={true}>
-              {existingDocuments.sort().map((documentId, i) => {
-                return <option key={i} value={documentId}>{documentId}</option>;
+              {existingDocuments.sort().map((document, i) => {
+                return <option key={i} value={document.id}>{document.description}</option>;
               })}
             </select>
           </div>
