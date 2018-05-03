@@ -209,7 +209,6 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
             return (
               <EventContainer documentId={documentId}
                               ref={(e) => this.eventContainerRefs[i] = e}
-                              onTriggered={this.fetchEvents.bind(this)}
                               event={event} key={i} />
             );
           })}
