@@ -14,6 +14,9 @@
     "appId": "nl.cwi.dis.trigger-launcher",
     "mac": {
       "target": "dir"
+    },
+    "win": {
+      "target": "portable"
     }
   },
   "devDependencies": {
