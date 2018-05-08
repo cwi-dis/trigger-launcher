@@ -11,6 +11,7 @@ interface DocumentChooserProps {
 
 interface DocumentChooserState {
   existingDocuments: Array<{ id: string, description: string }>;
+  endpointChanged: boolean;
 }
 
 class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChooserState> {
@@ -23,7 +24,8 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
     super(props);
 
     this.state = {
-      existingDocuments: []
+      existingDocuments: [],
+      endpointChanged: false
     };
   }
 
@@ -75,11 +77,12 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
     if (this.urlInput) {
       console.log("Assigning server URL", this.urlInput.value);
       this.props.assignServerUrl(this.urlInput.value);
+      this.setState({ endpointChanged: false });
     }
   }
 
   public render() {
-    const { existingDocuments } = this.state;
+    const { existingDocuments, endpointChanged } = this.state;
     const { serverUrl } = this.props;
 
     return (
@@ -91,11 +94,13 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
               <input className="input"
                      type="url"
                      placeholder="Endpoint"
+                     onChange={() => this.setState({ endpointChanged: true })}
                      ref={(e) => this.urlInput = e}
                      defaultValue={serverUrl || ""} />
             </div>
             <div className="control">
-              <a className="button is-info" onClick={this.assignServerUrl.bind(this)}>
+              <a className={classNames("button", (endpointChanged) ? "is-danger" : "is-info")}
+                 onClick={this.assignServerUrl.bind(this)}>
                 Update
               </a>
             </div>
