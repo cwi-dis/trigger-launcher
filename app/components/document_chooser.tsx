@@ -30,14 +30,14 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
   private requestDocuments() {
     const { serverUrl } = this.props;
 
-    makeRequest("GET", serverUrl + "/api/v1/document").then((data) => {
+    makeRequest("GET", serverUrl + "/api/v1/document", undefined, undefined, 2000).then((data) => {
       const documents = JSON.parse(data);
       this.setState({
         existingDocuments: documents
       });
     }).catch((err) => {
       console.error("Could not fetch existing documents:", err);
-      this.setState({ existingDocuments: [] });
+      this.setState({ existingDocuments: [] })
     });
   }
 

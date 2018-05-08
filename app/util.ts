@@ -24,7 +24,7 @@ type HTTPMethods = "GET" | "POST" | "PUT" | "DELETE";
 type PromiseResolve = (data: string) => void;
 type PromiseReject = (err: {status: number, statusText: string, body?: string}) => void;
 
-export function makeRequest(method: HTTPMethods, url: string, data?: any, contentType?: string): Promise<string> {
+export function makeRequest(method: HTTPMethods, url: string, data?: any, contentType?: string, timeout?: number): Promise<string> {
   return new Promise<string>((resolve: PromiseResolve, reject: PromiseReject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url);
@@ -58,6 +58,15 @@ export function makeRequest(method: HTTPMethods, url: string, data?: any, conten
       }
 
       xhr.send(data);
+    }
+
+    if (timeout) {
+      setTimeout(() => {
+        if (xhr.readyState !== 4) {
+          console.log("Aborting request due to timeout");
+          xhr.abort();
+        }
+      }, timeout);
     }
   });
 }
