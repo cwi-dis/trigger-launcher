@@ -1,10 +1,12 @@
 import * as React from "react";
 
+import { getApplicationConfig } from "../util";
 import DocumentChooser from "./document_chooser";
 import TriggerLauncher from "./trigger_launcher";
 
 interface AppState {
   documentId: string | null;
+  serverUrl: string | null;
 }
 
 class App extends React.Component<{}, AppState> {
@@ -12,7 +14,8 @@ class App extends React.Component<{}, AppState> {
     super(props);
 
     this.state = {
-      documentId: localStorage.getItem("documentId")
+      documentId: localStorage.getItem("documentId"),
+      serverUrl: getApplicationConfig().serverUrl
     };
   }
 
@@ -21,19 +24,26 @@ class App extends React.Component<{}, AppState> {
     localStorage.setItem("documentId", documentId);
   }
 
+  private assignServerUrl(serverUrl: string) {
+    this.setState({ serverUrl });
+  }
+
   private clearSession() {
     this.setState({ documentId: null });
     localStorage.removeItem("documentId");
   }
 
   private renderContent() {
-    const { documentId } = this.state;
+    const { documentId, serverUrl } = this.state;
 
     if (documentId) {
-      return <TriggerLauncher documentId={documentId} clearSession={this.clearSession.bind(this)} />;
+      return <TriggerLauncher documentId={documentId}
+                              clearSession={this.clearSession.bind(this)} />;
     }
 
-    return <DocumentChooser assignDocumentId={this.assignDocumentId.bind(this)} />;
+    return <DocumentChooser assignDocumentId={this.assignDocumentId.bind(this)}
+                            assignServerUrl={this.assignServerUrl.bind(this)}
+                            serverUrl={serverUrl} />;
   }
 
   public render() {

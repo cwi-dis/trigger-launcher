@@ -5,6 +5,8 @@ import { getApplicationConfig, makeRequest, Nullable } from "../util";
 
 interface DocumentChooserProps {
   assignDocumentId: (documentId: string) => void;
+  assignServerUrl: (serverUrl: string) => void;
+  serverUrl: string | null;
 }
 
 interface DocumentChooserState {
@@ -13,6 +15,8 @@ interface DocumentChooserState {
 
 class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChooserState> {
   private idInput: Nullable<HTMLSelectElement>;
+  private urlInput: Nullable<HTMLInputElement>;
+
   private docRequestInterval: any;
 
   constructor(props: DocumentChooserProps) {
@@ -23,22 +27,38 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
     };
   }
 
-  public componentDidMount() {
-    const { serverUrl } = getApplicationConfig();
+  private requestDocuments() {
+    const { serverUrl } = this.props;
 
-    const requestDocuments = () => {
-      makeRequest("GET", serverUrl + "/api/v1/document").then((data) => {
-        const documents = JSON.parse(data);
-        this.setState({
-          existingDocuments: documents
-        });
-      }).catch((err) => {
-        console.error("Could not fetch existing documents:", err);
+    makeRequest("GET", serverUrl + "/api/v1/document").then((data) => {
+      const documents = JSON.parse(data);
+      this.setState({
+        existingDocuments: documents
       });
-    };
+    }).catch((err) => {
+      console.error("Could not fetch existing documents:", err);
+      this.setState({ existingDocuments: [] });
+    });
+  }
 
-    this.docRequestInterval = setInterval(requestDocuments, 2000);
-    requestDocuments();
+  public componentDidMount() {
+    this.docRequestInterval = setInterval(this.requestDocuments, 2000);
+    this.requestDocuments();
+  }
+
+  public componentDidUpdate(prevProps: DocumentChooserProps) {
+    const { serverUrl } = this.props;
+
+    if (serverUrl !== prevProps.serverUrl) {
+      if (this.docRequestInterval) {
+        console.log("Cancelling old interval");
+        clearInterval(this.docRequestInterval);
+      }
+
+      console.log("Restarting interval");
+      this.docRequestInterval = setInterval(this.requestDocuments, 2000);
+      this.requestDocuments();
+    }
   }
 
   public componentWillUnmount() {
@@ -51,12 +71,35 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
     }
   }
 
+  private assignServerUrl() {
+    if (this.urlInput) {
+      console.log("Assigning server URL", this.urlInput.value);
+      this.props.assignServerUrl(this.urlInput.value);
+    }
+  }
+
   public render() {
     const { existingDocuments } = this.state;
+    const { serverUrl } = this.props;
 
     return (
       <div style={{width: "50vw", margin: "15% auto"}}>
-          <h3>Document ID</h3>
+          <h3>Session Setup</h3>
+
+          <div className="field has-addons">
+            <div className="control is-expanded">
+              <input className="input"
+                     type="url"
+                     placeholder="Endpoint"
+                     ref={(e) => this.urlInput = e}
+                     defaultValue={serverUrl || ""} />
+            </div>
+            <div className="control">
+              <a className="button is-info" onClick={this.assignServerUrl.bind(this)}>
+                Update
+              </a>
+            </div>
+          </div>
 
           <div className="select is-fullwidth is-info">
             <select key="id" ref={(e) => this.idInput = e} required={true}>
