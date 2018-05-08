@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-import { getApplicationConfig, makeRequest, Nullable } from "../util";
+import { makeRequest, Nullable } from "../util";
 
 interface DocumentChooserProps {
   assignDocumentId: (documentId: string) => void;
@@ -42,7 +42,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
   }
 
   public componentDidMount() {
-    this.docRequestInterval = setInterval(this.requestDocuments, 2000);
+    this.docRequestInterval = setInterval(this.requestDocuments.bind(this), 2000);
     this.requestDocuments();
   }
 
@@ -56,7 +56,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
       }
 
       console.log("Restarting interval");
-      this.docRequestInterval = setInterval(this.requestDocuments, 2000);
+      this.docRequestInterval = setInterval(this.requestDocuments.bind(this), 2000);
       this.requestDocuments();
     }
   }
