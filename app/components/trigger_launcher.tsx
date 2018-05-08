@@ -2,7 +2,7 @@ import * as React from "react";
 import * as io from "socket.io-client";
 
 import StreamDeck from "../streamdeck_proxy";
-import { makeRequest, getApplicationConfig, fetchImage } from "../util";
+import { makeRequest, fetchImage } from "../util";
 import EventContainer from "./event_container";
 
 export type ParamTypes = "duration" | "time" | "string" | "url" | "const" | "set" | "selection";
@@ -31,6 +31,7 @@ export interface Event {
 
 interface TriggerLauncherProps {
   documentId: string;
+  serverUrl: string;
   clearSession: () => void;
 }
 
@@ -54,7 +55,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   private subscribeToEventUpdates() {
-    const { serverUrl } = getApplicationConfig();
+    const { serverUrl } = this.props;
 
     makeRequest("GET", `${serverUrl}/api/v1/configuration`).then((data) => {
       const { websocketService }: { [index: string]: string } = JSON.parse(data);
@@ -83,7 +84,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   private fetchEvents() {
-    const { serverUrl } = getApplicationConfig();
+    const { serverUrl } = this.props;
     const url = `${serverUrl}/api/v1/document/${this.props.documentId}/events`;
 
     makeRequest("GET", url).then((data) => {
@@ -193,7 +194,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   public render() {
-    const { documentId, clearSession } = this.props;
+    const { documentId, clearSession, serverUrl } = this.props;
     const { buttonAssignments } = this.state;
 
     return (
@@ -208,6 +209,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
 
             return (
               <EventContainer documentId={documentId}
+                              serverUrl={serverUrl}
                               ref={(e) => this.eventContainerRefs[i] = e}
                               event={event} key={i} />
             );

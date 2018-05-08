@@ -37,7 +37,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
       });
     }).catch((err) => {
       console.error("Could not fetch existing documents:", err);
-      this.setState({ existingDocuments: [] })
+      this.setState({ existingDocuments: [] });
     });
   }
 

@@ -1,11 +1,12 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-import { makeRequest, getApplicationConfig } from "../util";
+import { makeRequest } from "../util";
 import { Event } from "./trigger_launcher";
 
 interface EventContainerProps {
   documentId: string;
+  serverUrl: string;
   event: Event;
   onTriggered?: () => void;
 }
@@ -45,7 +46,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     const endpoint = (event.state === "active") ? "modify" : "trigger";
     const requestMethod = (event.state === "active") ? "PUT" : "POST";
 
-    const { serverUrl } = getApplicationConfig();
+    const { serverUrl } = this.props;
     const url = `${serverUrl}/api/v1/document/${documentId}/events/${event.id}/${endpoint}`;
 
     const data = JSON.stringify(event.parameters.map((param) => {
@@ -65,8 +66,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
   }
 
   private dequeueEvent() {
-    const { event, documentId } = this.props;
-    const { serverUrl } = getApplicationConfig();
+    const { event, documentId, serverUrl } = this.props;
 
     const url = `${serverUrl}/api/v1/document/${documentId}/events/${event.id}/dequeue`;
 

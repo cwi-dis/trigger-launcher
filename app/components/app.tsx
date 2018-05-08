@@ -36,8 +36,9 @@ class App extends React.Component<{}, AppState> {
   private renderContent() {
     const { documentId, serverUrl } = this.state;
 
-    if (documentId) {
+    if (documentId && serverUrl) {
       return <TriggerLauncher documentId={documentId}
+                              serverUrl={serverUrl}
                               clearSession={this.clearSession.bind(this)} />;
     }
 
