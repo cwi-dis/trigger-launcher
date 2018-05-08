@@ -30,3 +30,5 @@ yarn start
 ## Configuration
 
 Runtime configuration options for the application are read from the file `config.json` located in the project root. When running the application on your local machine, you should update the option `serverUrl` to point to a running instance of the pre-production application, i.e. the pre-production application (or trigger-tool) you want to interact with (e.g. `https://editor.edge.2immerse.eu`).
+
+Note that starting from version 1.2.0, the `serverUrl` can also dynamically be changed in the starting screen of the application.
