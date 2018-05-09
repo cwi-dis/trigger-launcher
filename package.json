@@ -1,6 +1,7 @@
 {
   "name": "trigger-launcher",
-  "version": "1.2.1",
+  "productName": "Trigger Launcher",
+  "version": "1.2.2",
   "description": "An Electron application to launch preconfigured events from the live-triggering in a 2-IMMERSE presentation",
   "main": "main.js",
   "repository": "https://gitlab-ext.irt.de/2-immerse/trigger-launcher",
