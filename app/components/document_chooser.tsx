@@ -118,7 +118,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
           <div className="field" style={{marginTop: 25}}>
             <div className="control">
               <button onClick={this.assignDocumentId.bind(this)}
-                      disabled={existingDocuments.length === 0}
+                      disabled={existingDocuments.length === 0 || endpointChanged}
                       className={classNames("button", "is-info")}>
                 Continue
               </button>
