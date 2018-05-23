@@ -99,10 +99,11 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
                      defaultValue={serverUrl || ""} />
             </div>
             <div className="control">
-              <a className={classNames("button", (endpointChanged) ? "is-danger" : "is-info")}
-                 onClick={this.assignServerUrl.bind(this)}>
+              <button className="button is-info"
+                      disabled={!endpointChanged}
+                      onClick={this.assignServerUrl.bind(this)}>
                 Update
-              </a>
+              </button>
             </div>
           </div>
 
