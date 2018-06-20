@@ -59,9 +59,11 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
       console.log("success");
 
       if (event.state === "active") {
-        makeRequest("GET", `${serverUrl}/api/v1/document/${documentId}/events/requestbroadcast`).then(() => {
-          console.log("broadcast requested");
-        });
+        setTimeout(() => {
+          makeRequest("GET", `${serverUrl}/api/v1/document/${documentId}/events/requestbroadcast`).then(() => {
+            console.log("broadcast requested");
+          });
+        }, 500);
       }
 
       this.setState({ flashSuccess: true});
