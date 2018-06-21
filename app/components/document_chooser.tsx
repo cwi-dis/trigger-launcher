@@ -32,15 +32,17 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
   private requestDocuments() {
     const { serverUrl } = this.props;
 
-    makeRequest("GET", serverUrl + "/api/v1/document", undefined, undefined, 2000).then((data) => {
-      const documents = JSON.parse(data);
-      this.setState({
-        existingDocuments: documents
+    if (!this.state.endpointChanged) {
+      makeRequest("GET", serverUrl + "/api/v1/document", undefined, undefined, 2000).then((data) => {
+        const documents = JSON.parse(data);
+        this.setState({
+          existingDocuments: documents
+        });
+      }).catch((err) => {
+        console.error("Could not fetch existing documents:", err);
+        this.setState({ existingDocuments: [] });
       });
-    }).catch((err) => {
-      console.error("Could not fetch existing documents:", err);
-      this.setState({ existingDocuments: [] });
-    });
+    }
   }
 
   public componentDidMount() {
@@ -94,7 +96,7 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
               <input className="input"
                      type="url"
                      placeholder="Endpoint"
-                     onChange={() => this.setState({ endpointChanged: true })}
+                     onChange={() => this.setState({ existingDocuments: [], endpointChanged: true })}
                      ref={(e) => this.urlInput = e}
                      defaultValue={serverUrl || ""} />
             </div>
