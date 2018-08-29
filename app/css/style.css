@@ -5,6 +5,8 @@ html, body {
 
   margin: 0;
   padding: 0;
+
+  overflow: hidden;
 }
 
 h3 {
@@ -13,8 +15,19 @@ h3 {
   border-bottom: 1px solid #555555;
 }
 
+#titlebar {
+  width: 100%;
+  height: 24px;
+  background-color: #212121;
+  -webkit-app-region: drag;
+}
+
+#react {
+  overflow: auto;
+}
+
 .grid {
-  height: calc(100vh - 55px);
+  height: calc(100vh - 79px);
   width: 100vw;
   padding: 10px;
 
