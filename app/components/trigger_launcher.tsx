@@ -40,9 +40,11 @@ interface TriggerLauncherState {
 }
 
 class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
+  private readonly SLOT_COUNT = 15;
+
   private socket: SocketIOClient.Socket;
   private streamDeck: StreamDeck;
-  private eventContainerRefs: Array<EventContainer | null> = new Array(15).fill(null);
+  private eventContainerRefs: Array<EventContainer | null> = new Array(this.SLOT_COUNT).fill(null);
 
   public constructor(props: any) {
     super(props);
@@ -50,7 +52,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     this.streamDeck = new StreamDeck();
 
     this.state = {
-      buttonAssignments: new Array(15).fill(null)
+      buttonAssignments: new Array(this.SLOT_COUNT).fill(null),
     };
   }
 
