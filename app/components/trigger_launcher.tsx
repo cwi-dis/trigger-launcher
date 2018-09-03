@@ -2,7 +2,7 @@ import * as React from "react";
 import * as io from "socket.io-client";
 
 import StreamDeck from "../streamdeck_proxy";
-import { makeRequest, fetchImage } from "../util";
+import { makeRequest, fetchImage, pluralize } from "../util";
 import EventContainer from "./event_container";
 
 export type ParamTypes = "duration" | "time" | "string" | "url" | "const" | "set" | "selection";
@@ -37,6 +37,7 @@ interface TriggerLauncherProps {
 
 interface TriggerLauncherState {
   buttonAssignments: Array<Event | null>;
+  overflowingEvents: number;
 }
 
 class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLauncherState> {
@@ -53,6 +54,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
 
     this.state = {
       buttonAssignments: new Array(this.SLOT_COUNT).fill(null),
+      overflowingEvents: 0
     };
   }
 
@@ -125,6 +127,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     }
 
     this.setState({
+      overflowingEvents: enqueuedEvents.length,
       buttonAssignments
     });
   }
@@ -195,6 +198,20 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     }
   }
 
+  private renderOverflowWarning() {
+    const { overflowingEvents } = this.state;
+
+    if (overflowingEvents > 0) {
+      return (
+        <p className="overflowWarning">
+          Warning: {overflowingEvents} more {pluralize("event", overflowingEvents)} in queue
+        </p>
+      );
+    }
+
+    return null;
+  }
+
   public render() {
     const { documentId, clearSession, serverUrl } = this.props;
     const { buttonAssignments } = this.state;
@@ -223,6 +240,7 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
                   onClick={clearSession.bind(this)}>
             Clear Session
           </button>
+          {this.renderOverflowWarning()}
         </div>
       </div>
     );

@@ -41,6 +41,16 @@ h3 {
   width: 100vw;
   height: 55px;
   border-top: 2px solid #161616;
+
+  display: flex;
+}
+
+.overflowWarning {
+  padding-top: 15px;
+  padding-right: 16px;
+  text-align: right;
+  width: 100%;
+  color: #FF3860;
 }
 
 .eventContainer {
