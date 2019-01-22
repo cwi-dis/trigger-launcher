@@ -243,17 +243,18 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
             }
 
             return (
-              <EventContainer documentId={documentId}
-                              serverUrl={serverUrl}
-                              ref={(e) => this.eventContainerRefs[i] = e}
-                              event={event} key={i} />
+              <EventContainer
+                key={i}
+                documentId={documentId}
+                serverUrl={serverUrl}
+                ref={(e) => this.eventContainerRefs[i] = e}
+                event={event}
+              />
             );
           })}
         </div>
         <div className="remoteControl">
-          <button style={{margin: 8}}
-                  className="button is-danger"
-                  onClick={clearSession.bind(this)}>
+          <button style={{margin: 8}} className="button is-danger" onClick={clearSession.bind(this)}>
             Clear Session
           </button>
           {this.renderOverflowWarning()}

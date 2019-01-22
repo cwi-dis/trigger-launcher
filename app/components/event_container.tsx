@@ -138,8 +138,7 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
     }
 
     return (
-      <div onClick={this.dequeueEvent.bind(this)}
-           className="dequeueButton">
+      <div onClick={this.dequeueEvent.bind(this)} className="dequeueButton">
         &times;
       </div>
     );
@@ -175,12 +174,11 @@ class EventContainer extends React.Component<EventContainerProps, EventContainer
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <button className={classNames(
-                              "button",
-                              "is-info",
-                              {"is-loading": isLoading, "button-pulse-success": flashSuccess, "button-pulse-error": flashError})}
-                  onClick={this.launchEvent.bind(this)}
-                  onAnimationEnd={() => this.setState({flashSuccess: false, flashError: false})}>
+          <button
+            className={classNames("button", "is-info", {"is-loading": isLoading, "button-pulse-success": flashSuccess, "button-pulse-error": flashError})}
+            onClick={this.launchEvent.bind(this)}
+            onAnimationEnd={() => this.setState({flashSuccess: false, flashError: false})}
+          >
             {this.getButtonLabel()}
           </button>
         </div>

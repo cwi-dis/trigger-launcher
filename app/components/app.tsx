@@ -53,14 +53,22 @@ class App extends React.Component<{}, AppState> {
     const { documentId, serverUrl } = this.state;
 
     if (documentId && serverUrl) {
-      return <TriggerLauncher documentId={documentId}
-                              serverUrl={serverUrl}
-                              clearSession={this.clearSession.bind(this)} />;
+      return (
+        <TriggerLauncher
+          documentId={documentId}
+          serverUrl={serverUrl}
+          clearSession={this.clearSession.bind(this)}
+        />
+      );
     }
 
-    return <DocumentChooser assignDocumentId={this.assignDocumentId.bind(this)}
-                            assignServerUrl={this.assignServerUrl.bind(this)}
-                            serverUrl={serverUrl} />;
+    return (
+      <DocumentChooser
+        assignDocumentId={this.assignDocumentId.bind(this)}
+        assignServerUrl={this.assignServerUrl.bind(this)}
+        serverUrl={serverUrl}
+      />
+    );
   }
 
   public render() {

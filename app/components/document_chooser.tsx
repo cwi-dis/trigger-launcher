@@ -109,17 +109,21 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
 
           <div className="field has-addons">
             <div className="control is-expanded">
-              <input className="input"
-                     type="url"
-                     placeholder="Endpoint"
-                     onChange={() => this.setState({ existingDocuments: [], endpointChanged: true })}
-                     ref={(e) => this.urlInput = e}
-                     defaultValue={serverUrl || ""} />
+              <input
+                className="input"
+                type="url"
+                placeholder="Endpoint"
+                onChange={() => this.setState({ existingDocuments: [], endpointChanged: true })}
+                ref={(e) => this.urlInput = e}
+                defaultValue={serverUrl || ""}
+              />
             </div>
             <div className="control">
-              <button className="button is-info"
-                      disabled={!endpointChanged}
-                      onClick={this.assignServerUrl.bind(this)}>
+              <button
+                className="button is-info"
+                disabled={!endpointChanged}
+                onClick={this.assignServerUrl.bind(this)}
+              >
                 Update
               </button>
             </div>
@@ -135,9 +139,11 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
 
           <div className="field" style={{marginTop: 25}}>
             <div className="control">
-              <button onClick={this.assignDocumentId.bind(this)}
-                      disabled={existingDocuments.length === 0 || endpointChanged}
-                      className={classNames("button", "is-info")}>
+              <button
+                onClick={this.assignDocumentId.bind(this)}
+                disabled={existingDocuments.length === 0 || endpointChanged}
+                className={classNames("button", "is-info")}
+              >
                 Continue
               </button>
             </div>

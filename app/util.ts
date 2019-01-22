@@ -88,7 +88,7 @@ export function makeRequest(method: HTTPMethods, url: string, data?: any, conten
 }
 
 export function pluralize(word: string, count: number): string {
-  return (count == 0 || count > 1) ? word + "s" : word;
+  return (count === 0 || count > 1) ? word + "s" : word;
 }
 
 const imageCache: {[index: string]: any} = {};
