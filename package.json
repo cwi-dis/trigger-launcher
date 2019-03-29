@@ -4,7 +4,7 @@
   "version": "1.2.3",
   "description": "An Electron application to launch preconfigured events from the live-triggering in a 2-IMMERSE presentation",
   "main": "main.js",
-  "repository": "https://gitlab-ext.irt.de/2-immerse/trigger-launcher",
+  "repository": "https://github.com/2-IMMERSE/trigger-launcher",
   "author": "Thomas Röggla",
   "license": "BSD-2-Clause",
   "scripts": {
