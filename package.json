@@ -9,7 +9,8 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "start": "electron main.js",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "dist": "electron-builder"
   },
   "build": {
     "appId": "nl.cwi.dis.trigger-launcher",
@@ -26,30 +27,31 @@
     "@types/react-dom": "^16.0.4",
     "classnames": "^2.2.5",
     "css-loader": "^2.1.1",
-    "electron": "^1.8.4",
-    "electron-builder": "^20.43.0",
+    "electron": "^6.0.12",
+    "electron-builder": "^21.2.0",
     "style-loader": "^0.20.3",
-    "ts-loader": "^4.1.0",
+    "ts-loader": "^6.1.0",
     "tslint": "^5.17.0",
     "tslint-react": "^3.6.0",
     "typescript": "^2.7.2",
-    "webpack": "^4.29.6",
+    "webpack": "^4.40.2",
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
     "@types/escape-string-regexp": "^0.0.32",
     "@types/request": "^2.47.0",
-    "@types/sharp": "^0.17.8",
+    "@types/sharp": "^0.22.3",
     "@types/socket.io-client": "^1.4.32",
-    "bufferutil": "^3.0.4",
+    "bufferutil": "^4.0.1",
     "bulma": "^0.6.2",
-    "elgato-stream-deck": "https://github.com/troeggla/node-elgato-stream-deck",
+    "elgato-stream-deck": "^3.1.0",
     "escape-string-regexp": "^1.0.5",
     "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "request": "^2.85.0",
+    "sharp": "^0.23.1",
     "socket.io-client": "^2.1.0",
-    "utf-8-validate": "^4.0.1"
+    "utf-8-validate": "^5.0.2"
   }
 }
