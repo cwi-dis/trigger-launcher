@@ -18,11 +18,6 @@ import { openStreamDeck, StreamDeck } from "elgato-stream-deck";
 
 class StreamDeckProxy {
   private streamDeck?: StreamDeck;
-  private keyMap = [
-    4,  3,  2,  1,  0,
-    9,  8,  7,  6,  5,
-    14, 13, 12, 11, 10
-  ];
 
   public constructor() {
     try {
@@ -35,7 +30,7 @@ class StreamDeckProxy {
 
   public clearKey(index: number) {
     try {
-      this.streamDeck && this.streamDeck.clearKey(this.keyMap[index]);
+      this.streamDeck && this.streamDeck.clearKey(index);
     } catch {
       console.error("lost connection to StreamDeck");
       this.streamDeck = undefined;
@@ -53,7 +48,7 @@ class StreamDeckProxy {
 
   public fillColor(index: number, r: number, g: number, b: number) {
     try {
-      this.streamDeck && this.streamDeck.fillColor(this.keyMap[index], r, g, b);
+      this.streamDeck && this.streamDeck.fillColor(index, r, g, b);
     } catch {
       console.error("lost connection to StreamDeck");
       this.streamDeck = undefined;
@@ -62,7 +57,7 @@ class StreamDeckProxy {
 
   public fillImage(index: number, buffer: Buffer) {
     try {
-      this.streamDeck && this.streamDeck.fillImage(this.keyMap[index], buffer);
+      this.streamDeck && this.streamDeck.fillImage(index, buffer);
     } catch {
       console.error("lost connection to StreamDeck");
       this.streamDeck = undefined;
@@ -81,7 +76,7 @@ class StreamDeckProxy {
   public onKeyUp(callback: (index: number) => void) {
     if (this.streamDeck) {
       this.streamDeck.on("up", (index) => {
-        callback(this.keyMap[index]);
+        callback(index);
       });
     }
   }
