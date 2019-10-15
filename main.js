@@ -17,7 +17,10 @@ function createWindow () {
     width: 1440,
     height: 920,
     title: app.getName(),
-    titleBarStyle: "hidden"
+    titleBarStyle: "hidden",
+    webPreferences: {
+      nodeIntegration: true
+    }
   });
 
   // and load the index.html of the app.
