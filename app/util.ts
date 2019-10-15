@@ -93,7 +93,7 @@ export function pluralize(word: string, count: number): string {
 
 const imageCache: {[index: string]: any} = {};
 
-export function fetchImage(url: string): Promise<sharp.SharpInstance> {
+export function fetchImage(url: string): Promise<sharp.Sharp> {
   if (imageCache[url]) {
     return Promise.resolve(sharp(imageCache[url]).flatten().resize(72, 72));
   } else {
@@ -102,6 +102,7 @@ export function fetchImage(url: string): Promise<sharp.SharpInstance> {
         console.log("fetching image for", url);
 
         if (err) {
+          console.error(err);
           reject();
         } else {
           imageCache[url] = body;

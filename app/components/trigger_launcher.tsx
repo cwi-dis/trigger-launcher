@@ -189,12 +189,12 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     if (event.state === "active") {
       if (event.previewUrl) {
         fetchImage(event.previewUrl).then((img) => {
-          img.background("#1DCB00").resize(60, 60).extend(6).flatten().raw().toBuffer().then((bufferWithFrame) => {
+          img.resize(60, 60).extend({ top: 6, right: 6, bottom: 6, left: 6, background: "#1DCB00"}).flatten().raw().toBuffer().then((bufferWithFrame: Buffer) => {
             this.streamDeck.fillImage(i, bufferWithFrame);
           });
 
-        }).catch(() => {
-          console.log("Could not fetch image");
+        }).catch((err) => {
+          console.error("Could not fetch image:", err);
         });
       } else {
         this.streamDeck.fillColor(i, 255, 0, 0);
@@ -202,11 +202,11 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
     } else {
       if (event.previewUrl) {
         fetchImage(event.previewUrl).then((img) => {
-          img.background("#000000").resize(60, 60).extend(6).flatten().raw().toBuffer().then((buffer) => {
+          img.resize(60, 60).extend({ top: 6, right: 6, bottom: 6, left: 6, background: "#000000"}).flatten().raw().toBuffer().then((buffer: Buffer) => {
             this.streamDeck.fillImage(i, buffer);
           });
-        }).catch(() => {
-          console.log("Could not fetch image");
+        }).catch((err) => {
+          console.error("Could not fetch image:", err);
         });
       } else {
         this.streamDeck.fillColor(i, 255, 255, 255);
