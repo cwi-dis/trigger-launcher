@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import StreamDeck = require("elgato-stream-deck");
+import { openStreamDeck, StreamDeck } from "elgato-stream-deck";
 
 class StreamDeckProxy {
   private streamDeck?: StreamDeck;
@@ -26,7 +26,7 @@ class StreamDeckProxy {
 
   public constructor() {
     try {
-      this.streamDeck = new StreamDeck();
+      this.streamDeck = openStreamDeck();
     } catch {
       console.error("no StreamDecks connected, proxying all calls");
       this.streamDeck = undefined;
