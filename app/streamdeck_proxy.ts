@@ -60,15 +60,6 @@ class StreamDeckProxy {
     }
   }
 
-  public fillImageFromFile(index: number, path: string) {
-    try {
-      this.streamDeck && this.streamDeck.fillImageFromFile(this.keyMap[index], path);
-    } catch {
-      console.error("lost connection to StreamDeck");
-      this.streamDeck = undefined;
-    }
-  }
-
   public fillImage(index: number, buffer: Buffer) {
     try {
       this.streamDeck && this.streamDeck.fillImage(this.keyMap[index], buffer);
