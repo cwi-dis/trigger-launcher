@@ -34,8 +34,8 @@
     "tslint": "^5.17.0",
     "tslint-react": "^3.6.0",
     "typescript": "^2.7.2",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.2.3"
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "@types/escape-string-regexp": "^0.0.32",
