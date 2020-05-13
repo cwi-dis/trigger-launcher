@@ -30,11 +30,11 @@
     "electron": "^6.0.12",
     "electron-builder": "^21.2.0",
     "style-loader": "^0.20.3",
-    "ts-loader": "^6.1.0",
+    "ts-loader": "^6.2.2",
     "tslint": "^5.17.0",
     "tslint-react": "^3.6.0",
     "typescript": "^2.7.2",
-    "webpack": "^4.41.2",
+    "webpack": "^4.42.1",
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
