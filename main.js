@@ -16,7 +16,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1440,
     height: 920,
-    title: app.getName(),
+    title: app.name,
     titleBarStyle: "hidden",
     webPreferences: {
       nodeIntegration: true
@@ -50,7 +50,7 @@ function createWindow () {
 
   if (process.platform === "darwin") {
     menuTemplate.unshift({
-      label: app.getName(),
+      label: app.name,
       submenu: [
         {role: 'about'},
         {type: 'separator'},
