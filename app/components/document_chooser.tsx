@@ -105,49 +105,49 @@ class DocumentChooser extends React.Component<DocumentChooserProps, DocumentChoo
 
     return (
       <div style={{width: "50vw", margin: "15% auto"}}>
-          <h3>Session Setup</h3>
+        <h3>Session Setup</h3>
 
-          <div className="field has-addons">
-            <div className="control is-expanded">
-              <input
-                className="input"
-                type="url"
-                placeholder="Endpoint"
-                onChange={() => this.setState({ existingDocuments: [], endpointChanged: true })}
-                ref={(e) => this.urlInput = e}
-                defaultValue={serverUrl || ""}
-              />
-            </div>
-            <div className="control">
-              <button
-                className="button is-info"
-                disabled={!endpointChanged}
-                onClick={this.assignServerUrl.bind(this)}
-              >
-                Update
-              </button>
-            </div>
+        <div className="field has-addons">
+          <div className="control is-expanded">
+            <input
+              className="input"
+              type="url"
+              placeholder="Endpoint"
+              onChange={() => this.setState({ existingDocuments: [], endpointChanged: true })}
+              ref={(e) => this.urlInput = e}
+              defaultValue={serverUrl || ""}
+            />
           </div>
+          <div className="control">
+            <button
+              className="button is-info"
+              disabled={!endpointChanged}
+              onClick={this.assignServerUrl.bind(this)}
+            >
+              Update
+            </button>
+          </div>
+        </div>
 
-          <div className="select is-fullwidth is-info">
-            <select key="id" ref={(e) => this.idInput = e} required={true}>
-              {existingDocuments.sort().map((document, i) => {
-                return <option key={i} value={document.id}>{document.description}</option>;
-              })}
-            </select>
-          </div>
+        <div className="select is-fullwidth is-info">
+          <select key="id" ref={(e) => this.idInput = e} required={true}>
+            {existingDocuments.sort().map((document, i) => {
+              return <option key={i} value={document.id}>{document.description}</option>;
+            })}
+          </select>
+        </div>
 
-          <div className="field" style={{marginTop: 25}}>
-            <div className="control">
-              <button
-                onClick={this.assignDocumentId.bind(this)}
-                disabled={existingDocuments.length === 0 || endpointChanged}
-                className={classNames("button", "is-info")}
-              >
-                Continue
-              </button>
-            </div>
+        <div className="field" style={{marginTop: 25}}>
+          <div className="control">
+            <button
+              onClick={this.assignDocumentId.bind(this)}
+              disabled={existingDocuments.length === 0 || endpointChanged}
+              className={classNames("button", "is-info")}
+            >
+              Continue
+            </button>
           </div>
+        </div>
       </div>
     );
   }
