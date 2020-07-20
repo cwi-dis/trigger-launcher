@@ -10,7 +10,8 @@
   "scripts": {
     "start": "electron main.js",
     "postinstall": "electron-builder install-app-deps",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "lint": "eslint --ext=ts,tsx,js,jsx ."
   },
   "build": {
     "appId": "nl.cwi.dis.trigger-launcher",
