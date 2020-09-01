@@ -47,7 +47,7 @@
     "@types/socket.io-client": "^1.4.32",
     "bufferutil": "^4.0.1",
     "bulma": "^0.6.2",
-    "elgato-stream-deck": "^3.3.1",
+    "elgato-stream-deck": "^3.3.2",
     "escape-string-regexp": "^1.0.5",
     "immutable": "^3.8.2",
     "react": "^16.2.0",
