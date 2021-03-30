@@ -37,8 +37,8 @@
     "style-loader": "^0.20.3",
     "ts-loader": "^6.2.2",
     "typescript": "^2.7.2",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.10"
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0"
   },
   "dependencies": {
     "@types/escape-string-regexp": "^0.0.32",
