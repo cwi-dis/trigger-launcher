@@ -84,7 +84,7 @@ class StreamDeckProxy {
   public onError(callback: (error: Error) => void) {
     if (this.streamDeck) {
       this.streamDeck.on("error", (error) => {
-        callback(error);
+        callback(error as Error);
       });
     }
   }
