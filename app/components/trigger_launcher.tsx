@@ -114,10 +114,10 @@ class TriggerLauncher extends React.Component<TriggerLauncherProps, TriggerLaunc
   }
 
   private parseButtonAssignments(events: Array<Event>) {
-    let { buttonAssignments } = this.state;
+    const { buttonAssignments } = this.state;
 
     const activeEvents = events.filter((ev) => ev.state === "active");
-    let enqueuedEvents = events.filter((ev) => ev.state === "ready").map((event) => {
+    const enqueuedEvents = events.filter((ev) => ev.state === "ready").map((event) => {
       const activeResult = activeEvents.find((active) => {
         return active.productionId === event.productionId;
       });
